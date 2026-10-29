@@ -1,3 +1,4 @@
+
 # D.V.M.A  — Digital Visual Matrix Algorithm (v1.0)
 
 [![Rust](https://img.shields.io/badge/language-Rust-orange.svg)](https://www.rust-lang.org/)
@@ -39,6 +40,8 @@ $$\theta = N \times \frac{360^\circ}{26} \approx N \times 13.8461538^\circ$$
 - **Position `B`** ($N=1$): Notch at **13.8462°** (Clockwise).
 - **Position `N`** ($N=13$): Notch at **180.0°** (6 o'clock / DOWN).
 - **Position `Z`** ($N=25$): Notch at **346.1538°**.
+
+  <img width="1360" height="360" alt="alphabet_key" src="https://github.com/user-attachments/assets/b1a289e2-861a-4cf7-b047-b926410c8563" />
 
 ---
 
