@@ -142,7 +142,7 @@ This is a real working demo of D.V.M.A. We wrote a made-up company profile for a
 This image **is** the encrypted document. Every dot is one letter, and the position of the small notch cut into each dot tells the decoder which letter it is (see the alphabet key above). Without the passkey, the image looks like a pattern and reveals nothing.
 
 <!-- PASTE THE VALT MATRIX IMAGE HERE -->
-[<img width="2784" height="2784" alt="valt_matrix" src="https://github.com/user-attachments/assets/43c98538-22bb-4669-9298-cd266ce1075a" />
+<img width="2784" height="2784" alt="valt_matrix" src="https://github.com/user-attachments/assets/43c98538-22bb-4669-9298-cd266ce1075a" />
 
 
 ### Passkey (Share A)
@@ -150,8 +150,7 @@ This image **is** the encrypted document. Every dot is one letter, and the posit
 This is the user's half of the secret key. D.V.M.A splits the encryption key in two: this passkey is one half, and the other half is hidden inside the PNG file itself. You need **both** to decrypt. This demo passkey is published on purpose because the Valt document is fictional. For real documents, keep your passkey private.
 
 ```text
-[[share_a_passkey.txt](https://github.com/user-attachments/files/34214464/share_a_passkey.txt)
-]
+DVMA-SHARE-A-E6A7DE2FF5A38CBD010020C4B4654BE266A0D3EA199D10DCED6C0EDBD6251F50BA5390DF216B2ACD99E501F1C812C8
 ```
 
 ### Valt Documentation
