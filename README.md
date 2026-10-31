@@ -1,4 +1,3 @@
-
 # D.V.M.A  — Digital Visual Matrix Algorithm (v1.0)
 
 [![Rust](https://img.shields.io/badge/language-Rust-orange.svg)](https://www.rust-lang.org/)
@@ -133,6 +132,9 @@ Run linter checks and formatting checks:
 cargo fmt --check
 cargo clippy --all-targets --all-features -- -D warnings
 ```
+
+---
+
 ## 🧬 Live Example: Valt Documentation
 
 This is a real working demo of D.V.M.A. We wrote a made-up company profile for a fictional tech company called **Valt** (about 2,000 words), encrypted it, and turned it into a single image made of notched dots. Below you can see the image, the passkey that unlocks it, and the original document that is hidden inside it. You can run the recovery yourself and check that you get the exact same text back.
@@ -141,7 +143,6 @@ This is a real working demo of D.V.M.A. We wrote a made-up company profile for a
 
 This image **is** the encrypted document. Every dot is one letter, and the position of the small notch cut into each dot tells the decoder which letter it is (see the alphabet key above). Without the passkey, the image looks like a pattern and reveals nothing.
 
-<!-- PASTE THE VALT MATRIX IMAGE HERE -->
 <img width="2784" height="2784" alt="valt_matrix" src="https://github.com/user-attachments/assets/43c98538-22bb-4669-9298-cd266ce1075a" />
 
 
@@ -161,7 +162,7 @@ This is the original document before encryption, so you can compare it with what
 <summary>Click to read the full original document</summary>
 
 ```text
-[VALT_DOCUMEVALT TECHNOLOGIES - COMPANY DOCUMENTATION
+VALT TECHNOLOGIES - COMPANY DOCUMENTATION
 Internal Reference Edition 4.2 (Fictional Company, For Demonstration Only)
 
 1. EXECUTIVE OVERVIEW
@@ -303,10 +304,9 @@ How do I report a vulnerability? Send a report through the bug bounty portal. Va
 Valt exists because the founders believed that privacy and usability were never truly opposed; they were only badly implemented. Twelve years later, that belief remains the company's compass. This document is a fictional creation intended for demonstration purposes, and every name, product, figure, and place described here is invented.
 
 END OF DOCUMENT
-NTATION]
 ```
 
-</details>[valt_documentation.txt](https://github.com/user-attachments/files/34214452/valt_documentation.txt)
+</details>
 
 ---
 
