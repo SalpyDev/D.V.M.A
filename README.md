@@ -41,7 +41,7 @@ $$\theta = N \times \frac{360^\circ}{26} \approx N \times 13.8461538^\circ$$
 - **Position `N`** ($N=13$): Notch at **180.0°** (6 o'clock / DOWN).
 - **Position `Z`** ($N=25$): Notch at **346.1538°**.
 
-  <img width="1360" height="360" alt="alphabet_key" src="https://github.com/user-attachments/assets/b1a289e2-861a-4cf7-b047-b926410c8563" />
+  <img width="1760" height="1220" alt="alphabet_key (1)" src="https://github.com/user-attachments/assets/fdb5e96a-0cb8-4b5c-9367-88a343957597" />
 
 ---
 
