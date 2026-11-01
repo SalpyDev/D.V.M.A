@@ -5,6 +5,8 @@
 
 **D.V.M.A (Digital Visual Matrix Algorithm)** is a novel visual cryptographic system integrating A–Z micro-notch matrix encoding, authenticated AEAD symmetric encryption (`ChaCha20-Poly1305`), 2-of-2 Shamir secret sharing over $GF(2^8)$, lossless PNG container embedding, and a mandatory key-reconciliation recovery gate.
 
+> 👀 **Want to see it working first?** Jump to the [Live Example](#-live-example-valt-documentation): a real 2,000-word document encrypted into one PNG, with the passkey and the original text so you can verify it yourself.
+
 ---
 
 ## 🌟 Overview
@@ -48,24 +50,45 @@ $$\theta = N \times \frac{360^\circ}{26} \approx N \times 13.8461538^\circ$$
 ## 🚀 Installation & Build
 
 ### Prerequisites
-- Rust 1.75+ / Cargo toolchain.
+- A recent stable Rust toolchain with Cargo. Run `rustup update stable` to be sure. (Old versions such as Cargo 1.75 cannot read this project's `Cargo.lock` and fail with `lock file version 4 requires -Znext-lockfile-bump`.)
 
 ### Building
-```bash
+```powershell
 cargo build --release
 ```
 
-The resulting binary will be located at `target/release/dvma`.
+The resulting binary will be located at `target\release\dvma.exe`.
 
 ---
 
 ## 📖 Usage Examples
 
-### 1. Create a DVMA Encrypted PNG Matrix
-Encrypt a document and generate the visual matrix PNG artifact along with the user Share A passkey:
+### 📂 Before you start: telling D.V.M.A where your files are
 
-```bash
-dvma create --input secret.pdf --output matrix.png
+D.V.M.A has no config files and no file picker. You point it at your files by typing their **path** after `--input`, `--output` or `--image`. Your files can be in any folder on your computer.
+
+**Examples of paths**
+
+| Style | Example |
+|---|---|
+| **Full path** (works from anywhere) | `C:\Users\YourName\Documents\homework.txt` |
+| **Relative path** (starts from the folder your terminal is in) | `Documents\homework.txt` |
+| **File in the current folder** | `homework.txt` |
+
+**Tips**
+
+- **Put the path in quotes** if it has spaces: `--input "C:\Users\Your Name\My Documents\homework.txt"`.
+- **Drag and drop:** in most terminals you can drag a file from your file manager into the terminal window and it pastes the full path for you.
+- **See which folder you're in:** run `cd`. Relative paths start from there.
+- **Running the program:** the examples below write just `dvma`. Either replace it with the full location, for example `.\target\release\dvma.exe`, or install it once with `cargo install --path .` and then run `dvma` from any folder.
+
+---
+
+### 1. Create a DVMA Encrypted PNG Matrix
+Encrypt a document and generate the visual matrix PNG artifact along with the user Share A passkey.
+
+```powershell
+dvma create --input "C:\Users\YourName\Documents\secret.pdf" --output "C:\Users\YourName\Desktop\matrix.png"
 ```
 
 **Output:**
@@ -79,13 +102,15 @@ DVMA-SHARE-A-22A5C354A7C02578010020FCA170BEB442A65415A8844AF32F9417C2A0348851F90
 ⚠️ Loss of Share A makes document recovery IMPOSSIBLE from the image alone!
 ```
 
+> **Copy the passkey right away** and store it somewhere safe. It is shown once, and it is the only way to unlock the image.
+
 ---
 
 ### 2. Inspect a DVMA PNG Artifact
-Inspect a DVMA PNG container, verify its custom `dvMa` chunk, and display Share B metadata:
+Inspect a DVMA PNG container, verify its custom `dvMa` chunk, and display Share B metadata.
 
-```bash
-dvma inspect --image matrix.png
+```powershell
+dvma inspect --image "C:\Users\YourName\Desktop\matrix.png"
 ```
 
 **Output:**
@@ -101,11 +126,13 @@ Share B Data Length: 32 bytes
 ---
 
 ### 3. Recover the Original Document
-Supply the DVMA PNG image and Share A passkey to reconstruct $K$, decode the matrix, and perform authenticated decryption:
+Supply the DVMA PNG image and Share A passkey to reconstruct $K$, decode the matrix, and perform authenticated decryption.
 
-```bash
-dvma recover --image matrix.png --share-a "DVMA-SHARE-A-22A5C35..." --output restored.pdf
+```powershell
+dvma recover --image "C:\Users\YourName\Desktop\matrix.png" --share-a "DVMA-SHARE-A-22A5C35..." --output "C:\Users\YourName\Documents\restored.pdf"
 ```
+
+> **Tip:** if you leave out `--share-a`, D.V.M.A asks you to type or paste the passkey instead.
 
 **Output:**
 ```text
@@ -116,22 +143,55 @@ dvma recover --image matrix.png --share-a "DVMA-SHARE-A-22A5C35..." --output res
 🎉 Document recovered and saved successfully to: "restored.pdf"
 ```
 
+The recovered file is an exact, byte-for-byte copy of the original, with the same spaces, line breaks and formatting. It is saved to the `--output` path, not printed on screen.
+
 ---
 
-## 🧪 Running Tests
+### 4. Share an Encrypted Image
+To give an encrypted document to someone else:
 
-Run unit, integration, and end-to-end tests:
+1. Send them the **PNG file itself** (as an attachment or file transfer, never a screenshot or a service that converts images to JPEG).
+2. Send the **passkey separately**, through a different channel.
+3. They run `dvma recover` with the PNG and the passkey. Neither one works alone.
 
-```bash
-cargo test
+---
+
+## 📏 Capacity & Large Documents
+
+Every byte of ciphertext becomes **two dots** (two Base26 letters), and the matrix is capped at a **128 × 128** grid. That sets a hard ceiling:
+
+| Limit | Value |
+|---|---|
+| Max grid | 128 × 128 cells |
+| Usable data cells | 16,376 (16,384 minus 4 anchors and 4 length-header cells) |
+| Framing overhead | 38 bytes (22-byte frame header + 16-byte auth tag) |
+| **Max input size** | **8,150 bytes** (8,151 is rejected) |
+
+Anything bigger than about 8 KB is rejected with `Payload too large`. For text, compress it first, encrypt the compressed file, and unzip it after recovery:
+
+```powershell
+Compress-Archive -Path "C:\Users\YourName\Documents\report.txt" -DestinationPath "C:\Users\YourName\Documents\report.zip"
+dvma create  --input "C:\Users\YourName\Documents\report.zip" --output "C:\Users\YourName\Desktop\report_matrix.png"
+
+# Later, to get it back:
+dvma recover --image "C:\Users\YourName\Desktop\report_matrix.png" --share-a "DVMA-SHARE-A-..." --output "C:\Users\YourName\Documents\report_restored.zip"
+Expand-Archive "C:\Users\YourName\Documents\report_restored.zip" -DestinationPath "C:\Users\YourName\Documents\report_restored"
 ```
 
-Run linter checks and formatting checks:
+> ℹ️ A compressed file looks like random symbols if you open it directly. That is normal. Unzip it to read the text. Files that are already compressed (`.docx`, `.pdf`, `.jpg`, `.zip`) will not get much smaller.
 
-```bash
-cargo fmt --check
-cargo clippy --all-targets --all-features -- -D warnings
-```
+---
+
+## ⚠️ Common Mistakes
+
+| Problem | Cause and fix |
+|---|---|
+| `Error: IO error: No such file or directory` | A path is wrong. Check spelling, put paths with spaces in quotes, and make sure the **output folder already exists** (D.V.M.A creates the file, but not folders). |
+| `Share A and Share B belong to different key sets` | The passkey doesn't belong to that image. Every `create` makes a brand-new key, so running `create` again with the same `--output` **overwrites the old image and makes the old passkey useless**. Give each document its own image name and keep each passkey with its image. |
+| `Payload too large` | Input is bigger than **8,150 bytes**. Compress it first (see [Capacity & Large Documents](#-capacity--large-documents)). |
+| `Share CRC32 checksum mismatch` | The passkey was typed or copied wrong. Copy the whole `DVMA-SHARE-A-...` string again, with no missing characters. |
+| Recovery fails and `inspect` says there is no Share B | The PNG was re-encoded (screenshot, JPEG/WebP conversion, "Save image as", or an optimizer). Share B lives in a hidden part of the file and is lost this way. Always use the original PNG file. |
+| Existing files are replaced | `--output` silently overwrites a file with the same name, for both `create` and `recover`. |
 
 ---
 
@@ -307,6 +367,29 @@ END OF DOCUMENT
 ```
 
 </details>
+
+### Good to know
+
+- **Keep the PNG lossless.** Do not convert it to JPEG, resize it, screenshot it, or run it through an image optimizer. Any of these destroys the notches or deletes Share B (the hidden `dvMa` chunk), and the document becomes unrecoverable.
+- **Both halves are required.** The image holds the ciphertext and Share B. You hold Share A. Neither alone reveals anything.
+- **Tampering is detected.** If any dot is altered, authenticated decryption fails and no plaintext is released.
+
+---
+
+## 🧪 Running Tests
+
+Run unit, integration, and end-to-end tests:
+
+```powershell
+cargo test
+```
+
+Run linter checks and formatting checks:
+
+```powershell
+cargo fmt --check
+cargo clippy --all-targets --all-features -- -D warnings
+```
 
 ---
 
