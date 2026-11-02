@@ -65,7 +65,7 @@ If you are using 64-bit Windows, you can download the ready-to-run executable he
 
 **[Download `dvma-windows-x86_64.exe`](dist/dvma-windows-x86_64.exe)**
 
-Save the file somewhere convenient, then run it from PowerShell or Command Prompt. This download is for Windows x86-64; Linux and other platforms should build from source using the instructions above.
+Save the file somewhere convenient, then run it from PowerShell or Command Prompt. The download is self-contained and does not require a separate DLL beside it. This download is for Windows x86-64; Linux and other platforms should build from source using the instructions above.
 
 ---
 
