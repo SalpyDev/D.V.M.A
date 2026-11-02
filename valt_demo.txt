@@ -1,0 +1,9 @@
+VALT HARBOR SYSTEMS - DEMONSTRATION BRIEF
+
+Valt is a fictional infrastructure company based in Port Merrow. Its products help organizations store, review, and verify sensitive information. The company follows a simple principle: Proof Before Promise.
+
+This document is a fabricated demonstration payload for D.V.M.A. It includes ordinary text, punctuation, line breaks, and a small operational summary so the resulting matrix can be recovered byte for byte.
+
+Operational note: the 2026 Horizon plan covers regional data sovereignty, post-quantum migration, efficient computing, and open verification tooling.
+
+END OF DEMONSTRATION BRIEF

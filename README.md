@@ -59,6 +59,14 @@ cargo build --release
 
 The resulting binary will be located at `target\release\dvma.exe`.
 
+### Optional: Download the Windows executable
+
+If you are using 64-bit Windows, you can download the ready-to-run executable here:
+
+**[Download `dvma-windows-x86_64.exe`](dist/dvma-windows-x86_64.exe)**
+
+Save the file somewhere convenient, then run it from PowerShell or Command Prompt. This download is for Windows x86-64; Linux and other platforms should build from source using the instructions above.
+
 ---
 
 ## 📖 Usage Examples
